@@ -127,14 +127,22 @@ new_loan = {
     "future_value": 1000,
 }
 
+def calculate_present_value(future_value, remaining_months, annual_discount_rate): 
+    present_value = future_value / (1 + (annual_discount_rate / 12)) ** remaining_months 
+    return present_value
+    
 # @TODO: Define a new function that will be used to calculate present value.
 #    This function should include parameters for `future_value`, `remaining_months`, and the `annual_discount_rate`
 #    The function should return the `present_value` for the loan.
 # YOUR CODE HERE!
+
+
 loan_price = new_loan.get("loan_price")
 print(f"loan_price =",loan_price)
 remaining_months = new_loan.get("remaining_months")
 print(f"remaining_months =",remaining_months)
+repayment_interval = new_loan.get("repayment_interval")
+print(f"repayment_interval =",repayment_interval)
 future_value = new_loan.get("future_value")
 print(f"future_value =", future_value)
 
@@ -143,7 +151,8 @@ print(f"future_value =", future_value)
 #    Use an `annual_discount_rate` of 0.2 for this new loan calculation.
 # YOUR CODE HERE!
 annual_discount_rate = 0.2
-present_value = future_value / (1 + annual_discount_rate/12) ** remaining_months
+
+present_value = calculate_present_value( new_loan["future_value"], new_loan["remaining_months"], 0.20)
 
 print(f"The present value of the loan is: {present_value}")
 
@@ -188,14 +197,19 @@ loans = [
 
 # @TODO: Create an empty list called `inexpensive_loans`
 # YOUR CODE HERE!
-inexpensive_loans = []
-
+# inexpensive_loans = ["loan_price", "remaining_months", "repayment_interval", "future_value"]
+inexpensive_loans=[]
 # @TODO: Loop through all the loans and append any that cost $500 or less to the `inexpensive_loans` list
 # YOUR CODE HERE!
 for item in loans:
-    loan_price = item["loan_price"]
-    if loan_price <= 500:
-            inexpensive_loans.append(loan_price)
+    # loan_price = item["loan_price",0]
+    if int(loans(0)) > 500: 
+            inexpensive_loans.append(loans[0])
+
+    # if loan_price <= 500:
+    #         inexpensive_loans.append(loan_price)
+    #         # inexpensive_loans.append[loans(0),loans(1),loans(2),loans(3)]
+            
 # @TODO: Print the `inexpensive_loans` list
 # YOUR CODE HERE!
 print(f"inexpensive_loans list",inexpensive_loans)
@@ -215,15 +229,15 @@ Output this list of inexpensive loans to a csv file
 """
 
 # Set the output header
-header = ["loan_price", "remaining_months", "repayment_interval", "future_value"]
+header = ["loan_values"]
 
 # Set the output file path
 output_path = Path("inexpensive_loans.csv")
 
 # @TODO: Use the csv library and `csv.writer` to write the header row
 # and each row of `loan.values()` from the `inexpensive_loans` list.
-# YOUR CODE HERE!
-print(inexpensive_loans)
+
+
 # open the file in the write mode
 
 with open(output_path,"w",newline='') as file:
@@ -231,10 +245,15 @@ with open(output_path,"w",newline='') as file:
     csvwriter = csv.writer(file)
 
     #write a header to the csv file
-    csvwriter.writerow('loan_values')
-    for row in inexpensive_loans :
-        csvwriter.writerow(row)
+    csvwriter.writerow(header)
+    # for row in inexpensive_loans :
+    #     csvwriter.writerow(row)
     # write a row to the csv file
+    csvwriter.writerows(inexpensive_loans)
 
     
-    
+# with open(write_file_path, 'w') as f:
+#     csv_writer=csv.writer(f, delimiter='|')
+#     # for each_row in tall_list: 
+#     #     csv_writer.writerow(each_row) # ['onix', '2100']
+#     csv_writer.writerows(tall_list)
